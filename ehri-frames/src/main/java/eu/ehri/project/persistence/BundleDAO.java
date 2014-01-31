@@ -1,6 +1,5 @@
 package eu.ehri.project.persistence;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ListMultimap;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
@@ -33,7 +32,6 @@ public final class BundleDAO {
     private static final Logger logger = LoggerFactory.getLogger(BundleDAO.class);
 
     private final FramedGraph<?> graph;
-    private final PermissionScope scope;
     private final GraphManager manager;
     private final Serializer serializer;
     private final BundleValidator validator;
@@ -46,8 +44,6 @@ public final class BundleDAO {
      */
     public BundleDAO(FramedGraph<?> graph, PermissionScope scope) {
         this.graph = graph;
-        this.scope = Optional.fromNullable(scope)
-                .or(SystemScope.getInstance());
         manager = GraphManagerFactory.getInstance(graph);
         serializer = new Serializer.Builder(graph).dependentOnly().build();
         validator = new BundleValidator(manager, scope);
