@@ -8,6 +8,7 @@ import eu.ehri.project.models.DocumentaryUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ public class EadHandler extends SaxXmlHandler {
     private static final Logger logger = LoggerFactory
             .getLogger(EadHandler.class);
     protected final List<DocumentaryUnit>[] children = new ArrayList[12];
+    protected final Stack<String> scopeIds = new Stack<String>();
     // Pattern for EAD nodes that represent a child item
     private Pattern childItemPattern = Pattern.compile("^/*c(?:\\d*)$");
     
@@ -66,6 +68,13 @@ public class EadHandler extends SaxXmlHandler {
 	@Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
+
+        if (qName.equals("unitid")) {
+            String currentId = (String)currentGraphPath.get(depth-1).get("objectIdentifier");
+            if (currentId != null) {
+                scopeIds.push(currentId);
+            }
+        }
 
         if (childItemPattern.matcher(qName).matches() || qName.equals("archdesc")) { //a new DocumentaryUnit should be created
             children[depth] = new ArrayList<DocumentaryUnit>();
@@ -105,6 +114,8 @@ public class EadHandler extends SaxXmlHandler {
                     
                     extractDate(currentGraph);
 
+                    System.out.println("OBJECT IDs: " + scopeIds);
+
                     DocumentaryUnit current = (DocumentaryUnit)importer.importItem(currentGraph, depth);
                     logger.debug("importer used: " + importer.getClass());
                     if (depth > 0) { // if not on root level
@@ -126,10 +137,12 @@ public class EadHandler extends SaxXmlHandler {
                     logger.error("caught validation error: " + ex.getMessage());
                 } finally {
                     depth--;
+                    scopeIds.pop();
                 }
             } else {
                 putSubGraphInCurrentGraph(getImportantPath(currentPath), currentGraph);
                 depth--;
+                scopeIds.pop();
             }
         }
 
