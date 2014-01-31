@@ -1,10 +1,8 @@
 package eu.ehri.project.acl;
 
-import com.tinkerpop.blueprints.Direction;
+import com.google.common.collect.Lists;
 import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.frames.Adjacency;
 import eu.ehri.project.definitions.Entities;
-import eu.ehri.project.definitions.Ontology;
 import eu.ehri.project.models.Annotation;
 import eu.ehri.project.models.PermissionGrant;
 import eu.ehri.project.models.base.AccessibleEntity;
@@ -27,7 +25,7 @@ public enum SystemScope implements PermissionScope, AccessibleEntity {
 
     /**
      * Obtain the shared instance of SystemScope.
-     * @return
+     * @return The global SystemScope instance
      */
     public static PermissionScope getInstance() {
         return INSTANCE;
@@ -72,10 +70,6 @@ public enum SystemScope implements PermissionScope, AccessibleEntity {
         
     }
 
-    public Iterable<PermissionGrant> getPermissionAssertions() {
-        return new EmptyIterable<PermissionGrant>();
-    }
-
     public PermissionScope getPermissionScope() {
         return null;
     }
@@ -86,6 +80,11 @@ public enum SystemScope implements PermissionScope, AccessibleEntity {
 
     public Iterable<PermissionScope> getPermissionScopes() {
         return new EmptyIterable<PermissionScope>();
+    }
+
+    @Override
+    public Iterable<String> idChain() {
+        return Lists.newArrayList();
     }
 
     public SystemEvent getLatestEvent() {

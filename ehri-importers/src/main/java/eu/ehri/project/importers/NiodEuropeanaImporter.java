@@ -43,7 +43,7 @@ public class NiodEuropeanaImporter extends EaImporter{
     }
     
     public DocumentaryUnit importItem(Map<String, Object> itemData) throws ValidationError {
-        BundleDAO persister = new BundleDAO(framedGraph, permissionScope);
+        BundleDAO persister = new BundleDAO(framedGraph, permissionScope.idChain());
         Bundle unit = new Bundle(EntityClass.DOCUMENTARY_UNIT, extractDocumentaryUnit(itemData));
         logger.debug("unit created");
 

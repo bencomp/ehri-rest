@@ -214,7 +214,7 @@ public class SkosCoreCvocImporter {
                       try {
                           Bundle unit = constructBundleForConcept(element);
 
-                          BundleDAO persister = new BundleDAO(framedGraph, vocabulary);
+                          BundleDAO persister = new BundleDAO(framedGraph, vocabulary.idChain());
                           Mutation<Concept> mutation = persister.createOrUpdate(unit,
                                   Concept.class);
                           Concept frame = mutation.getNode();

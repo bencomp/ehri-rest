@@ -1,6 +1,7 @@
 package eu.ehri.project.views.impl;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import com.tinkerpop.frames.FramedGraph;
 import eu.ehri.project.acl.AclManager;
 import eu.ehri.project.acl.PermissionType;
@@ -15,6 +16,8 @@ import eu.ehri.project.persistence.Mutation;
 import eu.ehri.project.persistence.Serializer;
 import eu.ehri.project.views.Crud;
 import eu.ehri.project.views.ViewHelper;
+
+import java.util.List;
 
 public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
     private final FramedGraph<?> graph;
@@ -80,7 +83,7 @@ public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
             throws PermissionDenied, ValidationError, IntegrityError, ItemNotFound {
         E entity = graph.frame(manager.getVertex(bundle.getId()), cls);
         helper.checkEntityPermission(entity, user, PermissionType.UPDATE);
-        return new BundleDAO(graph, scope).update(bundle, cls);
+        return getPersister(scope).update(bundle, cls);
     }
 
     /**
@@ -100,7 +103,7 @@ public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
             Accessor user, Class<T> dependentClass)
             throws PermissionDenied, ValidationError, IntegrityError, ItemNotFound {
         helper.checkEntityPermission(parent, user, PermissionType.UPDATE);
-        return new BundleDAO(graph, parent).update(bundle, dependentClass);
+        return getPersister(parent).update(bundle, dependentClass);
     }
 
     /**
@@ -119,7 +122,7 @@ public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
             IntegrityError {
         helper.checkContentPermission(user, helper.getContentType(cls),
                 PermissionType.CREATE);
-        E item = new BundleDAO(graph, scope).create(bundle, cls);
+        E item = getPersister(scope).create(bundle, cls);
         // If a user creates an item, grant them OWNER perms on it.
         if (!acl.belongsToAdmin(user))
             acl.grantPermissions(user, item, PermissionType.OWNER);
@@ -150,7 +153,7 @@ public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
             throws PermissionDenied, ValidationError,
             IntegrityError {
         helper.checkEntityPermission(parent, user, PermissionType.UPDATE);
-        return new BundleDAO(graph, parent).create(bundle, dependentCls);
+        return getPersister(parent).create(bundle, dependentCls);
     }
 
     /**
@@ -170,7 +173,7 @@ public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
                 PermissionType.CREATE);
         helper.checkContentPermission(user, helper.getContentType(cls),
                 PermissionType.UPDATE);
-        return new BundleDAO(graph, scope).createOrUpdate(bundle, cls);
+        return getPersister(scope).createOrUpdate(bundle, cls);
     }
 
     /**
@@ -187,7 +190,7 @@ public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
     public Integer delete(E item, Accessor user) throws PermissionDenied,
             ValidationError, SerializationError {
         helper.checkEntityPermission(item, user, PermissionType.DELETE);
-        return new BundleDAO(graph, scope).delete(serializer
+        return getPersister(scope).delete(serializer
                 .vertexFrameToBundle(item));
     }
 
@@ -206,12 +209,22 @@ public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
                 Accessor user, Class<T> dependentClass)
             throws PermissionDenied, ValidationError, SerializationError {
         helper.checkEntityPermission(parent, user, PermissionType.DELETE);
-        return new BundleDAO(graph, parent).delete(serializer
+        return getPersister(parent).delete(serializer
                 .vertexFrameToBundle(item));
     }
 
     public Crud<E> setScope(PermissionScope scope) {
         return new CrudViews<E>(graph, cls,
                 Optional.fromNullable(scope).or(SystemScope.INSTANCE));
+    }
+
+    // Helpers
+    private BundleDAO getPersister(PermissionScope scope) {
+        List<String> scopeIds = Lists.newArrayList();
+        for (PermissionScope s : scope.getPermissionScopes()) {
+            scopeIds.add(s.getIdentifier());
+        }
+        scopeIds.add(scope.getIdentifier());
+        return new BundleDAO(graph, scope.idChain());
     }
 }

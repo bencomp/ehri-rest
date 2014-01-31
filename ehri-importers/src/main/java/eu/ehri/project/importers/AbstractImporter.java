@@ -67,6 +67,10 @@ public abstract class AbstractImporter<T> {
         }
     }
 
+    public PermissionScope getPermissionScope() {
+        return permissionScope;
+    }
+
     /**
      * Constructor.
      *
@@ -82,7 +86,7 @@ public abstract class AbstractImporter<T> {
         this.log = log;
         this.documentContext = documentContext;
         manager = GraphManagerFactory.getInstance(framedGraph);
-        persister = new BundleDAO(framedGraph, permissionScope);
+        persister = new BundleDAO(framedGraph, permissionScope.idChain());
     }
 
     /**
