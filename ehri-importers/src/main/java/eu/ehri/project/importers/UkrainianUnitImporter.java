@@ -44,7 +44,7 @@ public class UkrainianUnitImporter extends XmlImporter<Object> {
     @Override
     public AccessibleEntity importItem(Map<String, Object> itemData) throws ValidationError {
 
-        BundleDAO persister = new BundleDAO(framedGraph, permissionScope.idChain());
+        BundleDAO persister = new BundleDAO(framedGraph, permissionScope.idPath());
 
         logger.debug("-----------------------------------");
         Bundle unit = new Bundle(EntityClass.DOCUMENTARY_UNIT, extractUnit(itemData));

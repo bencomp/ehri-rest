@@ -4,7 +4,6 @@
  */
 package eu.ehri.project.importers;
 
-import com.google.common.collect.Iterables;
 import com.tinkerpop.blueprints.impls.neo4j.Neo4jGraph;
 import com.tinkerpop.frames.FramedGraph;
 import eu.ehri.project.definitions.Ontology;
@@ -86,7 +85,7 @@ public class EagImporter extends EaImporter {
     @Override
     public Repository importItem(Map<String, Object> itemData) throws ValidationError {
 
-        BundleDAO persister = new BundleDAO(framedGraph, permissionScope.idChain());
+        BundleDAO persister = new BundleDAO(framedGraph, permissionScope.idPath());
 
         Bundle unit = new Bundle(EntityClass.REPOSITORY, extractUnit(itemData));
 

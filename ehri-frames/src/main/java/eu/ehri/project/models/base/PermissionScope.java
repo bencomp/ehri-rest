@@ -22,7 +22,7 @@ public interface PermissionScope extends IdentifiableEntity {
     public Iterable<PermissionScope> getPermissionScopes();
 
     @JavaHandler
-    public Iterable<String> idChain();
+    public Iterable<String> idPath();
 
     abstract class Impl implements JavaHandlerContext<Vertex>, PermissionScope {
         public Iterable<PermissionScope> getPermissionScopes() {
@@ -31,7 +31,7 @@ public interface PermissionScope extends IdentifiableEntity {
                     .loop("n", JavaHandlerUtils.defaultMaxLoops, JavaHandlerUtils.noopLoopFunc));
         }
 
-        public Iterable<String> idChain() {
+        public Iterable<String> idPath() {
             // Sigh - duplication...
             List<String> pIds = Lists.reverse(gremlin().as("n")
                     .out(Ontology.HAS_PERMISSION_SCOPE)
@@ -39,10 +39,10 @@ public interface PermissionScope extends IdentifiableEntity {
                     .transform(new PipeFunction<Vertex, String>() {
                         @Override
                         public String compute(Vertex vertex) {
-                            return vertex.getProperty(EntityType.ID_KEY);
+                            return vertex.getProperty(Ontology.IDENTIFIER_KEY);
                         }
                     }).toList());
-            pIds.add((String) it().getProperty(EntityType.ID_KEY));
+            pIds.add((String) it().getProperty(Ontology.IDENTIFIER_KEY));
             return pIds;
         }
     }

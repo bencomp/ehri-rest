@@ -53,7 +53,7 @@ public class SkosImporter extends XmlImporter<Map<String, Object>> {
 
         Bundle unit = new Bundle(EntityClass.CVOC_CONCEPT,
                 extractConcept(itemData));
-        BundleDAO persister = new BundleDAO(framedGraph, permissionScope.idChain());
+        BundleDAO persister = new BundleDAO(framedGraph, permissionScope.idPath());
 
         // Add dates and descriptions to the bundle since they're @Dependent
         // relations.

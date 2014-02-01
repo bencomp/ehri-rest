@@ -1,7 +1,6 @@
 package eu.ehri.project.views.impl;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
 import com.tinkerpop.frames.FramedGraph;
 import eu.ehri.project.acl.AclManager;
 import eu.ehri.project.acl.PermissionType;
@@ -16,8 +15,6 @@ import eu.ehri.project.persistence.Mutation;
 import eu.ehri.project.persistence.Serializer;
 import eu.ehri.project.views.Crud;
 import eu.ehri.project.views.ViewHelper;
-
-import java.util.List;
 
 public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
     private final FramedGraph<?> graph;
@@ -220,6 +217,6 @@ public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
 
     // Helpers
     private BundleDAO getPersister(PermissionScope scope) {
-        return new BundleDAO(graph, scope.idChain());
+        return new BundleDAO(graph, scope.idPath());
     }
 }

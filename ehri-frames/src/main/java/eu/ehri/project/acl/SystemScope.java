@@ -83,7 +83,7 @@ public enum SystemScope implements PermissionScope, AccessibleEntity {
     }
 
     @Override
-    public Iterable<String> idChain() {
+    public Iterable<String> idPath() {
         return Lists.newArrayList();
     }
 

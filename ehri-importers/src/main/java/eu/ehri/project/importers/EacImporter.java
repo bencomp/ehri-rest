@@ -63,7 +63,7 @@ public class EacImporter extends EaImporter {
     @Override
     public HistoricalAgent importItem(Map<String, Object> itemData) throws ValidationError {
 
-        BundleDAO persister = new BundleDAO(framedGraph, permissionScope.idChain());
+        BundleDAO persister = new BundleDAO(framedGraph, permissionScope.idPath());
 
         Bundle unit = new Bundle(EntityClass.HISTORICAL_AGENT, extractUnit(itemData));
 
