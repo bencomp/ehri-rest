@@ -116,6 +116,10 @@ public class EadHandler extends SaxXmlHandler {
         //the child closes, add the new DocUnit to the list, establish some relations
         super.endElement(uri, localName, qName);
 
+        // FIXME: We need to add the 'parent' identifier to the ID stack
+        // so that graph path IDs are created correctly. This currently
+        // assumes there's a 'did' element from which we extract this
+        // identifier.
         if (qName.equals("did")) {
             extractIdentifier(currentGraphPath.peek());
             String topId = getCurrentTopIdentifier();
