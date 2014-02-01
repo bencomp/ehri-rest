@@ -120,7 +120,7 @@ public class EadHandler extends SaxXmlHandler {
             extractIdentifier(currentGraphPath.peek());
             String topId = getCurrentTopIdentifier();
             scopeIds.push(topId);
-            System.out.println("ADDING SCOPE: " + scopeIds);
+            logger.debug("Current id path: " + scopeIds);
         }
 
         if (needToCreateSubNode(qName)) {

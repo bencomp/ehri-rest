@@ -14,7 +14,6 @@ import eu.ehri.project.models.base.PermissionScope;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +30,14 @@ public class NiodEadTest extends AbstractImporterTest{
     protected final String TEST_REPO = "r1";
     protected final String XMLFILE = "NIOD-38640-ca1.xml";
     // Identifiers of nodes in the imported documentary units
-    protected final String ARCHDESC = "197a_niodID1", //"197a",
-            C01 = "197a_null_1.",
-            C02 = "197a_1._5-15",
-            C03_1 = "197a_5-15_8",
-            C03_2 = "197a_58-61_59";
+    protected final String ARCHDESC = "197a", //"197a",
+            C01 = "1.",
+            C02 = "5-15",
+            C02_1 = "8",
+            C03 = "58-61",
+            C03_2 = "59";
     int origCount=0;
 
-    @Ignore
     @Test
     public void niodEadTest() throws ItemNotFound, IOException, ValidationError, InputParseError {
         
@@ -69,12 +68,39 @@ public class NiodEadTest extends AbstractImporterTest{
         DocumentaryUnit c2 = graph.frame(
                 getVertexByIdentifier(graph,C02),
                 DocumentaryUnit.class);
-        DocumentaryUnit c3_1 = graph.frame(
-                getVertexByIdentifier(graph,C03_1),
+        DocumentaryUnit c2_1 = graph.frame(
+                getVertexByIdentifier(graph, C02_1),
+                DocumentaryUnit.class);
+        DocumentaryUnit c3 = graph.frame(
+                getVertexByIdentifier(graph,C03),
                 DocumentaryUnit.class);
         DocumentaryUnit c3_2 = graph.frame(
                 getVertexByIdentifier(graph,C03_2),
                 DocumentaryUnit.class);
+
+        // Test correct ID generation
+        assertEquals("nl-r1-197a", archdesc.getId());
+        assertEquals("nl-r1-197a-1-", c1.getId());
+        assertEquals("nl-r1-197a-1-5-15", c2.getId());
+        assertEquals("nl-r1-197a-1-58-61", c3.getId());
+        assertEquals("nl-r1-197a-1-5-15-8", c2_1.getId());
+        assertEquals("nl-r1-197a-1-58-61-59", c3_2.getId());
+
+        // Check permission scope and hierarchy
+        assertNull(archdesc.getParent());
+        assertEquals(agent, archdesc.getRepository());
+        assertEquals(agent, archdesc.getPermissionScope());
+        assertEquals(archdesc, c1.getParent());
+        assertEquals(archdesc, c1.getPermissionScope());
+        assertEquals(c1, c2.getParent());
+        assertEquals(c1, c2.getPermissionScope());
+        assertEquals(c1, c3.getParent());
+        assertEquals(c1, c3.getPermissionScope());
+        assertEquals(c2, c2_1.getParent());
+        assertEquals(c2, c2_1.getPermissionScope());
+        assertEquals(c3, c3_2.getParent());
+        assertEquals(c3, c3_2.getPermissionScope());
+
 
     //test titles
 //        for(DocumentDescription d : archdesc.getDocumentDescriptions()){
@@ -86,7 +112,7 @@ public class NiodEadTest extends AbstractImporterTest{
         for(DocumentDescription desc : c2.getDocumentDescriptions()){
                 assertEquals("Agenda's der ingekomen stukken", desc.getName());
         }
-        for(DocumentDescription d : c3_1.getDocumentDescriptions()){
+        for(DocumentDescription d : c2_1.getDocumentDescriptions()){
             assertEquals("1950-51 No's .3634/50-1506/51", d.getName());
         }
         for(DocumentDescription d : c3_2.getDocumentDescriptions()){
@@ -102,7 +128,7 @@ public class NiodEadTest extends AbstractImporterTest{
             assertEquals("file", d.asVertex().getProperty("levelOfDescription"));
         }
     //test dates
-        for(DocumentDescription d : c3_1.getDocumentDescriptions()){
+        for(DocumentDescription d : c2_1.getDocumentDescriptions()){
         	// Single date is just a string
         	assertEquals("1506/1950", d.asVertex().getProperty("unitDates"));
         	for (DatePeriod dp : d.getDatePeriods()){
