@@ -134,7 +134,8 @@ public class SkosImporter extends XmlImporter<Map<String, Object>> {
     }
 
     @Override
-    public AccessibleEntity importItem(Map<String, Object> itemData, int depth) throws ValidationError {
+    public AccessibleEntity importItem(Map<String, Object> itemData, List<String> idPath) throws
+            ValidationError {
         throw new UnsupportedOperationException("Not supported ever.");
     }
 }

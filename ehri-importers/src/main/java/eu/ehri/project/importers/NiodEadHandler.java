@@ -200,6 +200,7 @@ public class NiodEadHandler extends EadHandler {
 			ids[depth] = tempID;
 			logger.debug(ids[depth]);
 			currentGraph.put("objectIdentifier", tempID);
+            System.out.println("Generated TEMP niod ID " + tempID);
 //			ids[depth] = null;
 			
 //		    if (currentGraph.get("objectIdentifier") instanceof List) {

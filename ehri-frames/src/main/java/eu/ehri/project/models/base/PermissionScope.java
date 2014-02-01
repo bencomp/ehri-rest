@@ -1,5 +1,6 @@
 package eu.ehri.project.models.base;
 
+import com.google.common.collect.Lists;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.frames.Adjacency;
@@ -32,7 +33,7 @@ public interface PermissionScope extends IdentifiableEntity {
 
         public Iterable<String> idChain() {
             // Sigh - duplication...
-            List<String> pIds = gremlin().as("n")
+            List<String> pIds = Lists.reverse(gremlin().as("n")
                     .out(Ontology.HAS_PERMISSION_SCOPE)
                     .loop("n", JavaHandlerUtils.defaultMaxLoops, JavaHandlerUtils.noopLoopFunc)
                     .transform(new PipeFunction<Vertex, String>() {
@@ -40,8 +41,8 @@ public interface PermissionScope extends IdentifiableEntity {
                         public String compute(Vertex vertex) {
                             return vertex.getProperty(EntityType.ID_KEY);
                         }
-                    }).toList();
-            pIds.add((String)it().getProperty(EntityType.ID_KEY));
+                    }).toList());
+            pIds.add((String) it().getProperty(EntityType.ID_KEY));
             return pIds;
         }
     }

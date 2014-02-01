@@ -14,6 +14,7 @@ import eu.ehri.project.models.base.PermissionScope;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +36,9 @@ public class NiodEadTest extends AbstractImporterTest{
             C02 = "197a_1._5-15",
             C03_1 = "197a_5-15_8",
             C03_2 = "197a_58-61_59";
-    DocumentaryUnit archdesc, c1, c2, c3_1, c3_2;
     int origCount=0;
-            
+
+    @Ignore
     @Test
     public void niodEadTest() throws ItemNotFound, IOException, ValidationError, InputParseError {
         
@@ -59,19 +60,19 @@ public class NiodEadTest extends AbstractImporterTest{
         int newCount = origCount + 105; // temporarily changed to match found numbers
         assertEquals(newCount, getNodeCount(graph));
         
-        archdesc = graph.frame(
+        DocumentaryUnit archdesc = graph.frame(
                 getVertexByIdentifier(graph,ARCHDESC),
                 DocumentaryUnit.class);
-        c1 = graph.frame(
+        DocumentaryUnit c1 = graph.frame(
                 getVertexByIdentifier(graph,C01),
                 DocumentaryUnit.class);
-        c2 = graph.frame(
+        DocumentaryUnit c2 = graph.frame(
                 getVertexByIdentifier(graph,C02),
                 DocumentaryUnit.class);
-        c3_1 = graph.frame(
+        DocumentaryUnit c3_1 = graph.frame(
                 getVertexByIdentifier(graph,C03_1),
                 DocumentaryUnit.class);
-        c3_2 = graph.frame(
+        DocumentaryUnit c3_2 = graph.frame(
                 getVertexByIdentifier(graph,C03_2),
                 DocumentaryUnit.class);
 

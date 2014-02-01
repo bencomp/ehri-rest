@@ -220,11 +220,6 @@ public final class CrudViews<E extends AccessibleEntity> implements Crud<E> {
 
     // Helpers
     private BundleDAO getPersister(PermissionScope scope) {
-        List<String> scopeIds = Lists.newArrayList();
-        for (PermissionScope s : scope.getPermissionScopes()) {
-            scopeIds.add(s.getIdentifier());
-        }
-        scopeIds.add(scope.getIdentifier());
         return new BundleDAO(graph, scope.idChain());
     }
 }

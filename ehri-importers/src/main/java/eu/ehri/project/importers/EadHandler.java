@@ -1,5 +1,7 @@
 package eu.ehri.project.importers;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import eu.ehri.project.definitions.Ontology;
 import eu.ehri.project.importers.properties.XmlImportProperties;
 import eu.ehri.project.exceptions.ValidationError;
@@ -69,13 +71,6 @@ public class EadHandler extends SaxXmlHandler {
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         super.startElement(uri, localName, qName, attributes);
 
-        if (qName.equals("unitid")) {
-            String currentId = (String)currentGraphPath.get(depth-1).get("objectIdentifier");
-            if (currentId != null) {
-                scopeIds.push(currentId);
-            }
-        }
-
         if (childItemPattern.matcher(qName).matches() || qName.equals("archdesc")) { //a new DocumentaryUnit should be created
             children[depth] = new ArrayList<DocumentaryUnit>();
         }
@@ -84,6 +79,27 @@ public class EadHandler extends SaxXmlHandler {
 //                putPropertyInCurrentGraph(p.getAttributeProperty(attributes.getLocalName(attr)), attributes.getValue(attr));
 //            }
 //        }
+    }
+
+    protected List<String> pathIds () {
+        if (scopeIds.isEmpty()) {
+            return scopeIds;
+        } else {
+            List<String> path = Lists.newArrayList();
+            for (int i = 0; i < scopeIds.size() - 1; i++) {
+                path.add(scopeIds.get(i));
+            }
+            return path;
+        }
+    }
+
+    public String getCurrentTopIdentifier() {
+        Object current = currentGraphPath.peek().get("objectIdentifier");
+        if (current instanceof List<?>) {
+            return ((List<String>)current).get(0);
+        } else {
+            return (String)current;
+        }
     }
 
 	/**
@@ -100,8 +116,16 @@ public class EadHandler extends SaxXmlHandler {
         //the child closes, add the new DocUnit to the list, establish some relations
         super.endElement(uri, localName, qName);
 
+        if (qName.equals("did")) {
+            extractIdentifier(currentGraphPath.peek());
+            String topId = getCurrentTopIdentifier();
+            scopeIds.push(topId);
+            System.out.println("ADDING SCOPE: " + scopeIds);
+        }
+
         if (needToCreateSubNode(qName)) {
             Map<String, Object> currentGraph = currentGraphPath.pop();
+
             if (childItemPattern.matcher(qName).matches() || qName.equals("archdesc")) {
                 try {
                     //add any mandatory fields not yet there:
@@ -114,9 +138,7 @@ public class EadHandler extends SaxXmlHandler {
                     
                     extractDate(currentGraph);
 
-                    System.out.println("OBJECT IDs: " + scopeIds);
-
-                    DocumentaryUnit current = (DocumentaryUnit)importer.importItem(currentGraph, depth);
+                    DocumentaryUnit current = (DocumentaryUnit)importer.importItem(currentGraph, pathIds());
                     logger.debug("importer used: " + importer.getClass());
                     if (depth > 0) { // if not on root level
                     	children[depth - 1].add(current); // add child to parent offspring
@@ -142,7 +164,6 @@ public class EadHandler extends SaxXmlHandler {
             } else {
                 putSubGraphInCurrentGraph(getImportantPath(currentPath), currentGraph);
                 depth--;
-                scopeIds.pop();
             }
         }
 
