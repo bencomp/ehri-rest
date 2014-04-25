@@ -55,7 +55,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response getUserProfile(@PathParam("id") String id)
             throws AccessDenied, ItemNotFound, PermissionDenied, BadRequester {
@@ -63,7 +63,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
     public StreamingOutput listUserProfiles(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -75,7 +75,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
     public Response countUserProfiles(@QueryParam(FILTER_PARAM) List<String> filters)
             throws ItemNotFound, BadRequester {
@@ -83,7 +83,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/page")
     public StreamingOutput pageUserProfiles(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -96,7 +96,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createUserProfile(String json,
     		@QueryParam(GROUP_PARAM) List<String> groups, 
     		@QueryParam(ACCESSOR_PARAM) List<String> accessors) throws PermissionDenied,
@@ -107,7 +107,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response updateUserProfile(String json) throws PermissionDenied,
             IntegrityError, ValidationError, DeserializationError,
             ItemNotFound, BadRequester {
@@ -116,7 +116,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response updateUserProfile(@PathParam("id") String id, String json)
             throws AccessDenied, PermissionDenied, IntegrityError, ValidationError,
@@ -133,7 +133,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{userId:.+}/" + FOLLOWERS)
     public StreamingOutput listFollowers(
             @PathParam("userId") String userId,
@@ -150,7 +150,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{userId:.+}/" + FOLLOWERS + "/page")
     public StreamingOutput pageFollowers(
             @PathParam("userId") String userId,
@@ -167,7 +167,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{userId:.+}/" + FOLLOWING)
     public StreamingOutput listFollowing(
             @PathParam("userId") String userId,
@@ -184,7 +184,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{userId:.+}/" + FOLLOWING + "/page")
     public StreamingOutput pageFollowing(
             @PathParam("userId") String userId,
@@ -261,7 +261,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{userId:.+}/" + WATCHING)
     public StreamingOutput listWatching(
             @PathParam("userId") String userId,
@@ -279,7 +279,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{userId:.+}/" + WATCHING + "/page")
     public StreamingOutput pageWatching(
             @PathParam("userId") String userId,
@@ -344,7 +344,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{userId:.+}/" + Entities.ANNOTATION + "/page")
     public StreamingOutput pageAnnotations(
             @PathParam("userId") String userId,
@@ -362,7 +362,7 @@ public class UserProfileResource extends AbstractAccessibleEntityResource<UserPr
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{userId:.+}/" + Entities.LINK + "/page")
     public StreamingOutput pageLinks(
             @PathParam("userId") String userId,

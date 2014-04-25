@@ -67,7 +67,7 @@ public class EventResource extends AbstractAccessibleEntityResource<SystemEvent>
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response getEvent(@PathParam("id") String id) throws ItemNotFound,
             AccessDenied, BadRequester {
@@ -81,7 +81,7 @@ public class EventResource extends AbstractAccessibleEntityResource<SystemEvent>
      * @throws BadRequester
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
     public StreamingOutput listEvents(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -115,7 +115,7 @@ public class EventResource extends AbstractAccessibleEntityResource<SystemEvent>
      * @throws BadRequester
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/forUser/{userId:.+}")
     public StreamingOutput listEventsForUser(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -288,7 +288,7 @@ public class EventResource extends AbstractAccessibleEntityResource<SystemEvent>
      * @throws BadRequester
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/subjects")
     public StreamingOutput pageSubjectsForEvent(
             @PathParam("id") String id,
@@ -319,7 +319,7 @@ public class EventResource extends AbstractAccessibleEntityResource<SystemEvent>
      * @throws BadRequester
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/for/{id:.+}")
     public StreamingOutput pageEventsForItem(
             @PathParam("id") String id,
@@ -348,7 +348,7 @@ public class EventResource extends AbstractAccessibleEntityResource<SystemEvent>
      * @throws BadRequester
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/versions/{id:.+}")
     public StreamingOutput pageVersionsForItem(
             @PathParam("id") String id,

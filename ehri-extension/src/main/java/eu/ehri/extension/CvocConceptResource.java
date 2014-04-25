@@ -51,7 +51,7 @@ public class CvocConceptResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response getCvocConcept(@PathParam("id") String id)
             throws ItemNotFound, AccessDenied, BadRequester {
@@ -59,7 +59,7 @@ public class CvocConceptResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
     public StreamingOutput listCvocConcepts(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -71,7 +71,7 @@ public class CvocConceptResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
     public Response countCvocConcepts(@QueryParam(FILTER_PARAM) List<String> filters)
             throws ItemNotFound, BadRequester {
@@ -79,7 +79,7 @@ public class CvocConceptResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/page")
     public StreamingOutput pageCvocConcepts(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -92,7 +92,7 @@ public class CvocConceptResource extends
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response updateCvocConcept(String json) throws PermissionDenied,
             IntegrityError, ValidationError, DeserializationError,
             ItemNotFound, BadRequester {
@@ -101,7 +101,7 @@ public class CvocConceptResource extends
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response updateCvocConcept(@PathParam("id") String id, String json)
             throws AccessDenied, PermissionDenied, IntegrityError, ValidationError,
@@ -120,7 +120,7 @@ public class CvocConceptResource extends
     /*** 'related' concepts ***/
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/narrower/list")
     public StreamingOutput getCvocNarrowerConcepts(@PathParam("id") String id)
             throws ItemNotFound, AccessDenied, BadRequester {
@@ -129,7 +129,7 @@ public class CvocConceptResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/list")
     public StreamingOutput listCvocNarrowerConcepts(
             @PathParam("id") String id,
@@ -148,7 +148,7 @@ public class CvocConceptResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/count")
     public Response countCvocNarrowerConcepts(
             @PathParam("id") String id,
@@ -163,7 +163,7 @@ public class CvocConceptResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/page")
     public StreamingOutput pageCvocNarrowerConcepts(
             @PathParam("id") String id,
@@ -224,7 +224,7 @@ public class CvocConceptResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/broader/list")
     public StreamingOutput getCvocBroaderConcepts(@PathParam("id") String id)
             throws ItemNotFound, AccessDenied, BadRequester {
@@ -236,7 +236,7 @@ public class CvocConceptResource extends
 
     // See the relatedBy for the 'reverse' relation
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/related/list")
     public StreamingOutput getCvocRelatedConcepts(@PathParam("id") String id)
             throws ItemNotFound, AccessDenied, BadRequester {
@@ -247,7 +247,7 @@ public class CvocConceptResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/relatedBy/list")
     public StreamingOutput getCvocRelatedByConcepts(@PathParam("id") String id)
             throws ItemNotFound, AccessDenied, BadRequester {
@@ -315,7 +315,7 @@ public class CvocConceptResource extends
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/" + Entities.CVOC_CONCEPT)
     public Response createNarrowerConcept(@PathParam("id") String id,
             String json, @QueryParam(ACCESSOR_PARAM) List<String> accessors)

@@ -46,7 +46,7 @@ public class AnnotationResource extends
      * @throws BadRequester
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response getAction(@PathParam("id") String id) throws ItemNotFound,
             AccessDenied, BadRequester {
@@ -57,7 +57,7 @@ public class AnnotationResource extends
      * List all annotations.
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
     public StreamingOutput listAnnotations(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -84,7 +84,7 @@ public class AnnotationResource extends
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{id:.+}")
     public Response createAnnotationFor(@PathParam("id") String id,
             String json, @QueryParam(ACCESSOR_PARAM) List<String> accessors)
@@ -119,7 +119,7 @@ public class AnnotationResource extends
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{id:.+}/{did:.+}")
     public Response createAnnotationFor(
             @PathParam("id") String id,
@@ -150,7 +150,7 @@ public class AnnotationResource extends
      * @throws PermissionDenied
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/for/{id:.+}")
     public StreamingOutput listAnnotationsForSubtree(
             @PathParam("id") String id,

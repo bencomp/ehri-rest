@@ -32,7 +32,7 @@ public class DescriptionResource extends AbstractAccessibleEntityResource<Descri
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response createDescription(@PathParam("id") String id, String json)
             throws PermissionDenied, ValidationError, IntegrityError,
@@ -56,7 +56,7 @@ public class DescriptionResource extends AbstractAccessibleEntityResource<Descri
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response updateDescription(@PathParam("id") String id, String json)
             throws PermissionDenied, ValidationError, IntegrityError,
@@ -77,7 +77,7 @@ public class DescriptionResource extends AbstractAccessibleEntityResource<Descri
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/{did:.+}")
     public Response updateDescriptionWithId(@PathParam("id") String id,
             @PathParam("did") String did, String json)
@@ -120,7 +120,7 @@ public class DescriptionResource extends AbstractAccessibleEntityResource<Descri
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/{did:.+}/" + Entities.UNDETERMINED_RELATIONSHIP)
     public Response createAccessPoint(@PathParam("id") String id,
                 @PathParam("did") String did, String json)

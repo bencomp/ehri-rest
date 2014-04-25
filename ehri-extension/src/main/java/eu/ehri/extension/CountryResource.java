@@ -34,7 +34,7 @@ public class CountryResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response getCountry(@PathParam("id") String id)
             throws ItemNotFound, AccessDenied, BadRequester {
@@ -42,7 +42,7 @@ public class CountryResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
     public StreamingOutput listCountries(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -54,7 +54,7 @@ public class CountryResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
     public Response countCountries(@QueryParam(FILTER_PARAM) List<String> filters)
             throws ItemNotFound, BadRequester {
@@ -62,7 +62,7 @@ public class CountryResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/page")
     public StreamingOutput pageCountries(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -74,7 +74,7 @@ public class CountryResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/list")
     public StreamingOutput listCountryRepositories(
             @PathParam("id") String id,
@@ -92,7 +92,7 @@ public class CountryResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/count")
     public Response countCountryRepositories(
             @PathParam("id") String id,
@@ -107,7 +107,7 @@ public class CountryResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/page")
     public StreamingOutput pageCountryRepositories(
             @PathParam("id") String id,
@@ -126,7 +126,7 @@ public class CountryResource extends
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createCountry(String json,
             @QueryParam(ACCESSOR_PARAM) List<String> accessors)
             throws PermissionDenied, ValidationError, IntegrityError,
@@ -137,7 +137,7 @@ public class CountryResource extends
     // Note: json contains id
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response updateCountry(String json) throws PermissionDenied,
             IntegrityError, ValidationError, DeserializationError,
             ItemNotFound, BadRequester {
@@ -146,7 +146,7 @@ public class CountryResource extends
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response updateCountry(@PathParam("id") String id, String json)
             throws AccessDenied, PermissionDenied, IntegrityError, ValidationError,
@@ -177,7 +177,7 @@ public class CountryResource extends
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/" + Entities.REPOSITORY)
     public Response createCountryRepository(@PathParam("id") String id,
             String json, @QueryParam(ACCESSOR_PARAM) List<String> accessors)

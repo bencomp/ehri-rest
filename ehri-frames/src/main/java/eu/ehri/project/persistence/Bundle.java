@@ -549,24 +549,6 @@ public final class Bundle {
     }
 
     /**
-     * Serialize a bundle to a JSON string.
-     *
-     * @return document An XML document
-     */
-    public Document toXml() {
-        return DataConverter.bundleToXml(this);
-    }
-
-    /**
-     * Serialize to an XML String.
-     *
-     * @return An XML string
-     */
-    public String toXmlString() {
-        return DataConverter.bundleToXmlString(this);
-    }
-
-    /**
      * Check if this bundle as a generated ID.
      *
      * @return True if the ID has been synthesised.

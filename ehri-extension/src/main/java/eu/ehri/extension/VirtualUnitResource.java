@@ -34,7 +34,7 @@ public class VirtualUnitResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response getVirtualUnit(@PathParam("id") String id)
             throws ItemNotFound, AccessDenied, BadRequester {
@@ -42,7 +42,7 @@ public class VirtualUnitResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
     public StreamingOutput listVirtualUnits(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -54,7 +54,7 @@ public class VirtualUnitResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/page")
     public StreamingOutput pageVirtualUnits(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -66,7 +66,7 @@ public class VirtualUnitResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
     public Response countVirtualUnits(@QueryParam(FILTER_PARAM) List<String> filters)
             throws ItemNotFound, BadRequester {
@@ -74,7 +74,7 @@ public class VirtualUnitResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/list")
     public StreamingOutput listChildVirtualUnits(
             @PathParam("id") String id,
@@ -95,7 +95,7 @@ public class VirtualUnitResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/page")
     public StreamingOutput pageChildVirtualUnits(
             @PathParam("id") String id,
@@ -116,7 +116,7 @@ public class VirtualUnitResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/count")
     public Response countChildVirtualUnits(
             @PathParam("id") String id,
@@ -135,7 +135,7 @@ public class VirtualUnitResource extends
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response updateVirtualUnit(String json) throws PermissionDenied,
             IntegrityError, ValidationError, DeserializationError,
             ItemNotFound, BadRequester {
@@ -144,7 +144,7 @@ public class VirtualUnitResource extends
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createVirtualUnit(String json,
             @QueryParam(ACCESSOR_PARAM) List<String> accessors)
             throws PermissionDenied, ValidationError, IntegrityError,
@@ -154,7 +154,7 @@ public class VirtualUnitResource extends
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response updateVirtualUnit(@PathParam("id") String id,
             String json) throws AccessDenied, PermissionDenied, IntegrityError,
@@ -172,7 +172,7 @@ public class VirtualUnitResource extends
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/" + Entities.VIRTUAL_UNIT)
     public Response createVirtualUnit(@PathParam("id") String id,
             String json, @QueryParam(ACCESSOR_PARAM) List<String> accessors)

@@ -2,7 +2,6 @@ package eu.ehri.extension;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
@@ -45,9 +44,7 @@ public abstract class AbstractRestResource implements TxCheckedResource {
     protected static final Logger logger = LoggerFactory.getLogger(TxCheckedResource.class);
     private static final FramedGraphFactory graphFactory = new FramedGraphFactory(new JavaHandlerModule());
 
-    /**
-     * Query arguments.
-     */
+    // Params we support.
     public static final String SORT_PARAM = "sort";
     public static final String FILTER_PARAM = "filter";
     public static final String LIMIT_PARAM = "limit";
@@ -56,44 +53,22 @@ public abstract class AbstractRestResource implements TxCheckedResource {
     public static final String GROUP_PARAM = "group";
     public static final String ALL_PARAM = "all";
 
+    // Secret params for configuring serialization
     public static final String INCLUDE_PROPS_PARAM = "_ip";
 
-    /**
-     * Header names
-     */
+    // Named headers we support
     public static final String AUTH_HEADER_NAME = "Authorization";
     public static final String PATCH_HEADER_NAME = "Patch";
     public static final String LOG_MESSAGE_HEADER_NAME = "logMessage";
 
 
-    /**
-     * With each request the headers of that request are injected into the
-     * requestHeaders parameter.
-     */
+    // Request headers
     @Context
     private HttpHeaders requestHeaders;
 
+    // The request - useful for content-negotiation etc.
     @Context
     private Request request;
-
-
-    protected MediaType checkMediaType() {
-        MediaType applicationJson = MediaType.APPLICATION_JSON_TYPE;
-        MediaType applicationXml = MediaType.TEXT_XML_TYPE;
-
-        // NB: Json is default so it's first...
-        MediaType[] supportedTypes = new MediaType[]{applicationJson, applicationXml};
-        List<Variant> variants = Variant.VariantListBuilder.newInstance()
-                .mediaTypes(supportedTypes).add().build();
-
-        Variant variant = request.selectVariant(variants);
-
-        if (variant == null) {
-            return null;
-        } else {
-            return variant.getMediaType();
-        }
-    }
 
     /**
      * With each request URI info is injected into the uriInfo parameter.
@@ -216,9 +191,7 @@ public abstract class AbstractRestResource implements TxCheckedResource {
      */
     protected <T extends Frame> StreamingOutput streamingPage(
             final Query.Page<T> page) {
-        return MediaType.TEXT_XML_TYPE.equals(checkMediaType())
-                ? getStreamingXmlOutput(page, getSerializer())
-                : getStreamingJsonOutput(page, getSerializer());
+        return getStreamingJsonOutput(page, getSerializer());
     }
 
     /**
@@ -231,34 +204,17 @@ public abstract class AbstractRestResource implements TxCheckedResource {
      */
     protected <T extends Frame> StreamingOutput streamingPage(
             final Query.Page<T> page, final Serializer serializer) {
-        return MediaType.TEXT_XML_TYPE.equals(checkMediaType())
-                ? getStreamingXmlOutput(page, serializer)
-                : getStreamingJsonOutput(page, serializer);
+        return getStreamingJsonOutput(page, serializer);
     }
 
-    private <T extends Frame> StreamingOutput getStreamingXmlOutput(final Query.Page<T> page, final Serializer serializer) {
-        final Charset utf8 = Charset.forName("UTF-8");
-        final String header = String.format("<page total=\"%d\" offset=\"%d\" limit=\"%d\">\n",
-                page.getCount(), page.getOffset(), page.getLimit());
-        final String tail = "</page>\n";
-
-        return new StreamingOutput() {
-            @Override
-            public void write(OutputStream os) throws IOException {
-                os.write(header.getBytes(utf8));
-                try {
-                    for (T item : page.getIterable()) {
-                        os.write(serializer.vertexFrameToXmlString(item)
-                                .getBytes(utf8));
-                    }
-                } catch (SerializationError serializationError) {
-                    throw new RuntimeException(serializationError);
-                }
-                os.write(tail.getBytes(utf8));
-            }
-        };
-    }
-
+    /**
+     * Stream JSON to the client.
+     *
+     * @param page A page of items
+     * @param serializer The item serializer
+     * @param <T> A type extending Frame
+     * @return A streaming response
+     */
     private <T extends Frame> StreamingOutput getStreamingJsonOutput(final Query.Page<T> page, final Serializer serializer) {
         final JsonFactory f = new JsonFactory();
         final Serializer cacheSerializer = serializer.withCache();
@@ -295,10 +251,7 @@ public abstract class AbstractRestResource implements TxCheckedResource {
      */
     protected <T extends Frame> StreamingOutput streamingList(
             final Iterable<T> list) {
-        final Serializer serializer = getSerializer();
-        return MediaType.TEXT_XML_TYPE.equals(checkMediaType())
-                ? getStreamingXmlOutput(list, serializer)
-                : getStreamingJsonOutput(list, serializer);
+        return getStreamingJsonOutput(list, getSerializer());
     }
 
     /**
@@ -310,33 +263,17 @@ public abstract class AbstractRestResource implements TxCheckedResource {
      */
     protected <T extends Frame> StreamingOutput streamingList(
             final Iterable<T> list, final Serializer serializer) {
-        return MediaType.TEXT_XML_TYPE.equals(checkMediaType())
-                ? getStreamingXmlOutput(list, serializer)
-                : getStreamingJsonOutput(list, serializer);
+        return getStreamingJsonOutput(list, serializer);
     }
 
-    private <T extends Frame> StreamingOutput getStreamingXmlOutput(final Iterable<T> list, final Serializer serializer) {
-        final Charset utf8 = Charset.forName("UTF-8");
-        final String header = "<list>\n";
-        final String tail = "</list>\n";
-
-        return new StreamingOutput() {
-            @Override
-            public void write(OutputStream os) throws IOException {
-                os.write(header.getBytes(utf8));
-                try {
-                    for (T item : list) {
-                        os.write(serializer.vertexFrameToXmlString(item)
-                                .getBytes(utf8));
-                    }
-                } catch (SerializationError e) {
-                    throw new RuntimeException(e);
-                }
-                os.write(tail.getBytes(utf8));
-            }
-        };
-    }
-
+    /**
+     * Stream JSON to the client.
+     *
+     * @param list A list of items
+     * @param serializer The item serializer
+     * @param <T> A type extending Frame
+     * @return A streaming response
+     */
     private <T extends Frame> StreamingOutput getStreamingJsonOutput(final Iterable<T> list, final Serializer serializer) {
         final JsonFactory f = new JsonFactory();
         final Serializer cacheSerializer = serializer.withCache();
@@ -363,8 +300,6 @@ public abstract class AbstractRestResource implements TxCheckedResource {
     /**
      * Return a streaming response from an iterable, using the given
      * entity converter.
-     * <p/>
-     * FIXME: I shouldn't be here, or the other method should. Redesign API.
      *
      * @param list A list of vertices
      * @return A streaming response
@@ -395,8 +330,6 @@ public abstract class AbstractRestResource implements TxCheckedResource {
     /**
      * Return a streaming response from an iterable, using the given
      * entity converter.
-     * <p/>
-     * FIXME: I shouldn't be here, or the other method should. Redesign API.
      *
      * @param map A map of vertices
      * @return A streaming response
@@ -472,43 +405,35 @@ public abstract class AbstractRestResource implements TxCheckedResource {
      * Return a number.
      */
     protected Response numberResponse(Long number) {
-        return MediaType.TEXT_XML_TYPE.equals(checkMediaType())
-                ? Response.ok(String.format("<count>%d</count>", number)
-                .getBytes()).build()
-                : Response.ok(number.toString().getBytes()).build();
+        return Response.ok(number.toString().getBytes()).build();
     }
 
     /**
      * Return a boolean.
      */
     protected Response booleanResponse(boolean bool) {
-        return MediaType.TEXT_XML_TYPE.equals(checkMediaType())
-                ? Response.ok(String.format("<boolean>%s</boolean>", bool)
-                .getBytes()).build()
-                : Response.ok(Boolean.toString(bool).getBytes()).build();
+        return Response.ok(Boolean.toString(bool).getBytes()).build();
     }
 
     /**
-     * Get a string representation (JSON or XML) of a given frame.
+     * Get a string representation of a given frame. Currently only
+     * JSON is supported.
      *
      * @param vertex A vertex
      * @return The string representation, according to media type
      */
     protected String getRepresentation(Vertex vertex) throws SerializationError {
-        return MediaType.TEXT_XML_TYPE.equals(checkMediaType())
-                ? getSerializer().vertexToXmlString(vertex)
-                : getSerializer().vertexToJson(vertex);
+        return getSerializer().vertexToJson(vertex);
     }
 
     /**
-     * Get a string representation (JSON or XML) of a given frame.
+     * Get a string representation of a given frame. Currently only
+     * JSON is supported.
      *
      * @param frame A framed item
      * @return The string representation, according to media type
      */
     protected String getRepresentation(Frame frame) throws SerializationError {
-        return MediaType.TEXT_XML_TYPE.equals(checkMediaType())
-                ? getSerializer().vertexFrameToXmlString(frame)
-                : getSerializer().vertexFrameToJson(frame);
+        return getSerializer().vertexFrameToJson(frame);
     }
 }

@@ -35,7 +35,7 @@ public class AuthoritativeSetResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response getAuthoritativeSet(@PathParam("id") String id)
             throws ItemNotFound, AccessDenied, BadRequester {
@@ -43,7 +43,7 @@ public class AuthoritativeSetResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
     public StreamingOutput listAuthoritativeSets(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -55,7 +55,7 @@ public class AuthoritativeSetResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
     public Response countAuthoritativeSets(@QueryParam(FILTER_PARAM) List<String> filters)
             throws ItemNotFound, BadRequester {
@@ -63,7 +63,7 @@ public class AuthoritativeSetResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/page")
     public StreamingOutput pageAuthoritativeSets(
             @QueryParam(OFFSET_PARAM) @DefaultValue("0") int offset,
@@ -75,7 +75,7 @@ public class AuthoritativeSetResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/list")
     public StreamingOutput listAuthoritativeSetHistoricalAgents(
             @PathParam("id") String id,
@@ -93,7 +93,7 @@ public class AuthoritativeSetResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/count")
     public Response countAuthoritativeSetHistoricalAgents(
             @PathParam("id") String id,
@@ -108,7 +108,7 @@ public class AuthoritativeSetResource extends
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/page")
     public StreamingOutput pageAuthoritativeSetHistoricalAgents(
             @PathParam("id") String id,
@@ -127,7 +127,7 @@ public class AuthoritativeSetResource extends
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createAuthoritativeSet(String json,
             @QueryParam(ACCESSOR_PARAM) List<String> accessors)
             throws PermissionDenied, ValidationError, IntegrityError,
@@ -138,7 +138,7 @@ public class AuthoritativeSetResource extends
     // Note: json contains id
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response updateAuthoritativeSet(String json) throws PermissionDenied,
             IntegrityError, ValidationError, DeserializationError,
             ItemNotFound, BadRequester {
@@ -147,7 +147,7 @@ public class AuthoritativeSetResource extends
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}")
     public Response updateAuthoritativeSet(@PathParam("id") String id, String json)
             throws AccessDenied, PermissionDenied, IntegrityError, ValidationError,
@@ -208,7 +208,7 @@ public class AuthoritativeSetResource extends
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id:.+}/" + Entities.HISTORICAL_AGENT)
     public Response createAuthoritativeSetHistoricalAgent(@PathParam("id") String id,
             String json, @QueryParam(ACCESSOR_PARAM) List<String> accessors)

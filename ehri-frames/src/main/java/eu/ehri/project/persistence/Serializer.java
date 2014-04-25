@@ -12,7 +12,6 @@ import eu.ehri.project.models.base.Frame;
 import eu.ehri.project.models.utils.ClassUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
@@ -243,54 +242,6 @@ public final class Serializer {
     public String vertexToJson(Vertex item)
             throws SerializationError {
         return DataConverter.bundleToJson(vertexFrameToBundle(item));
-    }
-
-    /**
-     * Serialise a vertex frame to XML.
-     *
-     * @param item The item vertex
-     * @return An XML document
-     * @throws SerializationError
-     */
-    public Document vertexFrameToXml(Vertex item)
-            throws SerializationError {
-        return DataConverter.bundleToXml(vertexFrameToBundle(item));
-    }
-
-    /**
-     * Serialise a vertex frame to XML.
-     *
-     * @param item A framed item
-     * @return An XML document
-     * @throws SerializationError
-     */
-    public <T extends Frame> Document vertexFrameToXml(T item)
-            throws SerializationError {
-        return vertexFrameToXml(item.asVertex());
-    }
-
-    /**
-     * Serialise a vertex frame to XML string.
-     *
-     * @param item The item vertex
-     * @return An XML document string
-     * @throws SerializationError
-     */
-    public String vertexToXmlString(Vertex item)
-            throws SerializationError {
-        return DataConverter.bundleToXmlString(vertexFrameToBundle(item));
-    }
-
-    /**
-     * Serialise a vertex frame to XML string.
-     *
-     * @param item The framed item
-     * @return An XML document string
-     * @throws SerializationError
-     */
-    public <T extends Frame> String vertexFrameToXmlString(T item)
-            throws SerializationError {
-        return DataConverter.bundleToXmlString(vertexFrameToBundle(item));
     }
 
     /**
