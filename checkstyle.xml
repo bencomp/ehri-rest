@@ -5,10 +5,10 @@
 <module name="Checker">
 	<!-- Require Javadoc for each package in a package-info.java file -->
     <module name="JavadocPackage"/>
-    <!-- Require Javadoc for each type -->
-    <module name="JavadocType"/>
-    <module name="TreeWalker">
-        <module name="AvoidStarImport"/>
-        <module name="EmptyBlock"/>
-    </module>
+	<module name="TreeWalker">
+		<!-- Require Javadoc for each type -->
+		<module name="JavadocType" />
+		<module name="AvoidStarImport" />
+		<module name="EmptyBlock" />
+	</module>
 </module>
