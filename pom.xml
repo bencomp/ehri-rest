@@ -118,7 +118,7 @@
 					<linkXRef>true</linkXRef>
 					<failOnViolation>false</failOnViolation>
 					<outputFileFormat>xml</outputFileFormat>
-					<outputFile>${project.build.directory}/checkstyle-output.xml</outputFile>
+					<outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>
 					<useFile>true</useFile>
 				</configuration>
 			</plugin>
