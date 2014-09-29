@@ -20,12 +20,13 @@ import org.slf4j.LoggerFactory;
 /**
  *
  * @author linda
+ * @author ben
  */
 public class UshmmTest extends AbstractImporterTest{
     private static final Logger logger = LoggerFactory.getLogger(UshmmTest.class);
     
     protected final String SINGLE_EAD = "irn50845.xml";
-    protected final String IMPORTED_ITEM_ID = "50845";
+    protected final String IMPORTED_ITEM_ID = "irn50845";
     protected final String IMPORTED_ITEM_ALT_ID = "RG-50.586*0138";
 
     // Depends on fixtures
