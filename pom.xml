@@ -55,6 +55,43 @@
     <reporting>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<!-- Default configuration for all reports -->
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<id>non-aggregate</id>
+						<configuration>
+							<!-- Specific configuration for the non aggregate report -->
+						</configuration>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+					<reportSet>
+						<id>aggregate</id>
+						<configuration>
+							<!-- Specific configuration for the aggregate report -->
+						</configuration>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>3.0.0</version>
@@ -65,6 +102,11 @@
 				</configuration>
 			</plugin>
 			<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-jxr-plugin</artifactId>
+        		<version>2.3</version>
+    		</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.13</version>
@@ -73,7 +115,11 @@
 					<encoding>UTF-8</encoding>
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>false</failsOnError>
-					<linkXRef>false</linkXRef>
+					<linkXRef>true</linkXRef>
+					<failOnViolation>false</failOnViolation>
+					<outputFileFormat>xml</outputFileFormat>
+					<outputFile>${project.build.directory}/checkstyle-output.xml</outputFile>
+					<useFile>true</useFile>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -178,4 +224,14 @@
             </build>
         </profile>
     </profiles>
+    <organization>
+    	<name>The EHRI Project</name>
+    	<url>http://www.ehri-project.eu</url>
+    </organization>
+    <issueManagement>
+    	<system>GitHub Issues</system>
+    	<url>http://github.com/mikesname/ehri-rest/issues</url>
+    </issueManagement>
+    <description>This project is part of Work Package 19 of the European Holocaust Research Infrastructure project, which is concerned with the tools for ingesting archival descriptions and providing a backend for the web portal developed in WP 20.</description>
+    <url>http://www.ehri-project.eu</url>
 </project>
