@@ -5,10 +5,8 @@
 package eu.ehri.project.importers;
 
 import eu.ehri.project.definitions.Ontology;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
