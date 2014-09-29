@@ -146,6 +146,10 @@ public class AbstractImporterTest extends AbstractFixtureTest {
         return new GraphDiff(added, removed);
     }
 
+    /**
+     * Print a text representation of the given graph on the debug log
+     * @param graph the FramedGraph to print
+     */
     protected void printGraph(FramedGraph<?> graph) {
         int vcount = 0;
         for (Vertex v : graph.getVertices()) {
@@ -154,9 +158,11 @@ public class AbstractImporterTest extends AbstractFixtureTest {
                 String value = "";
                 if (v.getProperty(key) instanceof String[]) {
                     String[] list = (String[]) v.getProperty(key);
+                    StringBuilder sb = new StringBuilder();
                     for (String o : list) {
-                        value += "[" + o + "] ";
+                        sb.append("[" + o + "] ");
                     }
+                    value = sb.toString();
                 } else {
                     value = v.getProperty(key).toString();
                 }
@@ -169,11 +175,22 @@ public class AbstractImporterTest extends AbstractFixtureTest {
         }
     }
 
-    // Print a Concept Tree from a 'top' concept down into all narrower concepts
+    /**
+     * Print a Concept Tree from a 'top' concept down into all narrower concepts
+     * @param out a PrintStream to print to
+     * @param c the top Concept in the concept tree
+     */
     public void printConceptTree(final PrintStream out, Concept c) {
         printConceptTree(out, c, 0, "");
     }
 
+    /**
+     * Print a Concept Tree from a 'top' concept down into all narrower concepts
+     * @param out a PrintStream to print to
+     * @param c the top Concept in the concept tree
+     * @param depth
+     * @param indent
+     */
     public void printConceptTree(final PrintStream out, Concept c, int depth, String indent) {
         if (depth > 100) {
             out.println("STOP RECURSION, possibly cyclic 'tree'");
@@ -205,25 +222,35 @@ public class AbstractImporterTest extends AbstractFixtureTest {
     }
 
     /**
-     * 
-     * @param graph
+     * Get a Vertex from a given Graph by the value of the 'identifier' property
+     * @param graph the Graph to search
      * @param identifier the value of the property 'identifier'
-     * @return 
+     * @return the first Vertex found with the given identifier or null
      */
     protected Vertex getVertexByIdentifier(FramedGraph<?> graph, String identifier) {
         Iterable<Vertex> docs = graph.getVertices(Ontology.IDENTIFIER_KEY, identifier);
-        return docs.iterator().next();
+        if (docs.iterator().hasNext()) {
+            return docs.iterator().next();
+        } else {
+            return null;
+        }
     }
+
     /**
-     * 
-     * @param graph
+     * Get a Vertex from a given Graph by the value of the '__ID__' property
+     * @param graph the Graph to search
      * @param id the value of the property '__ID__'
-     * @return 
+     * @return the first Vertex found with the given __ID__ or null
      */
     protected Vertex getVertexById(FramedGraph<?> graph, String id) {
         Iterable<Vertex> docs = graph.getVertices(EntityType.ID_KEY, id);
-        return docs.iterator().next();
+        if (docs.iterator().hasNext()) {
+            return docs.iterator().next();
+        } else {
+            return null;
+        }
     }
+
     protected int getNodeCount(FramedGraph<?> graph) {
         long l = Iterables.count(graph.getVertices());
         if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE)
